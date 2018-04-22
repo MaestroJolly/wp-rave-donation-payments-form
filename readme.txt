@@ -5,7 +5,7 @@ Donate link: http://flutterwave.com/
 Requires at least: 4.4
 Tested up to: 4.8
 Requires PHP: 5.4
-Stable tag: 0.0.1
+Stable tag: 1.0.0
 License: MIT
 License URI: https://github.com/Flutterwave/rave-payment-forms/blob/master/LICENSE
 
@@ -18,7 +18,8 @@ Rave is available in:
 Nigeria
 Ghana
 Kenya
-
+South Africa
+North America and Europe (USD, GBP, EUR)
 == Description ==
 
 Pay Button Public Key - Enter your public key which can be retrieved from Settings > API on your Rave account dashboard.
