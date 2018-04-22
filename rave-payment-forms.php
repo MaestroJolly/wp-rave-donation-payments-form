@@ -2,11 +2,11 @@
   /*
   Plugin Name: Rave Payment Forms
   Plugin URI: http://flutterwave.com/
-  Description: Rave payment gateway forms.
-  Version: 0.0.1
-  Author: Bosun Olanrewaju
-  Author URI: http://twitter.com/bosunolanrewaju
-    Copyright: © 2016 Bosun Olanrewaju.
+  Description: Rave payment gateway forms, accept local and international payments securely.
+  Version: 1.0.1
+  Author: Flutterwave, Bosun Olanrewaju
+  Author URI: https://twitter.com/theflutterwave
+    Copyright: © 2016 Flutterwave Technology Solutions
     License: MIT License
   */
 
