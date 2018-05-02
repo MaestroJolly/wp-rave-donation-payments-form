@@ -1,7 +1,7 @@
 === Rave Payment Forms ===
-Contributors: bosunolanrewaju, flutterwave, flamekeed
+Contributors: flutterwave
 Tags: rave, payment form, payment gateway, bank account, credit card, debit card, nigeria, kenya, international, mastercard, visa
-Donate link: http://flutterwave.com/
+Donate link: http://rave.flutterwave.com/
 Requires at least: 4.4
 Tested up to: 4.8
 Requires PHP: 5.4
