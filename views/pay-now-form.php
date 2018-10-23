@@ -21,6 +21,20 @@
 
     <?php endif; ?>
 
+    <?php if ( empty( $atts['firstname'] ) ) : ?>
+
+      <label class="pay-now"><?php _e( 'First Name', 'rave-pay' ) ?> (Optional) </label>
+      <input class="flw-form-input-text" id="flw-first-name" type="text" placeholder="<?php _e( 'First Name', 'rave-pay' ) ?>" /><br>
+
+    <?php endif; ?>
+
+    <?php if ( empty( $atts['lastname'] ) ) : ?>
+
+      <label class="pay-now"><?php _e( 'Last Name', 'rave-pay' ) ?> (Optional) </label>
+      <input class="flw-form-input-text" id="flw-last-name" type="text" placeholder="<?php _e( 'Last Name', 'rave-pay' ) ?>" /><br>
+
+    <?php endif; ?>
+
     <?php if ( empty( $atts['amount'] ) ) : ?>
 
       <label class="pay-now"><?php _e( 'Amount', 'rave-pay' ); ?></label>
