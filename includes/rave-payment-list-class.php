@@ -89,6 +89,7 @@
           // case 'tx_ref':
           //   return $column_name;
           case 'customer':
+          case 'fullname':
           case 'status':
             return get_post_meta( $item->ID, '_flw_rave_payment_' . $column_name, true );
           case 'date':
@@ -112,6 +113,7 @@
           'cb'      => '<input type="checkbox" />',
           'tx_ref'  => __( 'Transaction Ref', 'rave-pay' ),
           'customer' => __( 'Customer', 'rave-pay' ),
+          'fullname' => __('Customer Fullname', 'rave-pay'),
           'amount'  => __( 'Amount (' . $admin_settings->get_option_value( 'currency' ) . ')', 'rave-pay' ),
           'status'  => __( 'Status', 'rave-pay' ),
           'date'    => __( 'Date', 'rave-pay' ),

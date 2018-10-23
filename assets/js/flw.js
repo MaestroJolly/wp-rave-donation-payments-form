@@ -69,6 +69,7 @@ if ( form ) {
       redirectTo( redirectUrl );
     },
     callback: function(res) {
+      // console.log(res);
       sendPaymentRequestResponse( res, form );
     }
   };

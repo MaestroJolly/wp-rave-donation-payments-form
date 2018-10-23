@@ -143,6 +143,7 @@
 
             $post_meta = array(
               '_flw_rave_payment_amount'   => $txn->data->amount,
+              '_flw_rave_payment_fullname' => $_POST['customer']['fullName'],//$txn->data->customer->fullName,
               '_flw_rave_payment_customer' => $_POST['customer']['email'],
               '_flw_rave_payment_status'   => $status,
               '_flw_rave_payment_tx_ref'   => $tx_ref,
