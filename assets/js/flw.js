@@ -1,7 +1,7 @@
 'use strict';
 
 var form = jQuery( '.flw-simple-pay-now-form' ),
-    redirectUrl;
+  redirectUrl;
 
 if ( form ) {
 
@@ -14,30 +14,54 @@ if ( form ) {
 
 }
 
+
 /**
  * Builds config object to be sent to GetPaid
  *
  * @return object - The config object
  */
-var buildConfigObj = function( form ) {
+  var buildConfigObj = function( form ) {
   var formData = jQuery( form ).data();
   var amount = formData.amount || jQuery(form).find('#flw-amount').val();
   var email = formData.email || jQuery(form).find('#flw-customer-email').val();
+  var firstname = formData.firstname || jQuery(form).find('#flw-first-name').val();
+  var lastname = formData.lastname || jQuery(form).find('#flw-last-name').val();
   var formCurrency = formData.currency || jQuery(form).find('#flw-currency').val();
   var txref   = 'WP_' + form.id.toUpperCase() + '_' + new Date().valueOf();
+  var setCountry; //set country
+
 
   if (formCurrency == '') {
     formCurrency = flw_rave_options.currency;
   }
 
+  //switch the country with form currency provided
+  switch (formCurrency) {
+    case 'KES':
+      setCountry = 'KE';
+      break;
+    case 'GHS':
+      setCountry = 'GH';
+      break;
+    case 'ZAR':
+      setCountry = 'ZA';
+      break;
+  
+    default:
+      setCountry = 'NG';
+      break;
+  }
+
   return {
     amount: amount,
-    country: flw_rave_options.country,
+    country: setCountry, //flw_rave_options.country,
     currency: formCurrency,
     custom_description: flw_rave_options.desc,
     custom_logo: flw_rave_options.logo,
     custom_title: flw_rave_options.title,
     customer_email: email,
+    customer_firstname: firstname,
+    customer_lastname: lastname,
     payment_method: flw_rave_options.method,
     PBFPubKey: flw_rave_options.pbkey,
     txref: txref,

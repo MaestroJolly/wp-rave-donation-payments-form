@@ -58,7 +58,6 @@
         if (!empty($this->get_logo_url($attr))) {
           $attr['logo'] = $this->get_logo_url($attr);
         }
-        
 
         $atts = shortcode_atts( array(
           'amount'    => '',
@@ -79,7 +78,7 @@
 
       }
 
-      public function render_payment_form( $atts, $btn_text ) {
+      public function render_payment_form( $atts, $btn_text ) {        
 
         $data_attr = '';
         foreach ($atts as $att_key => $att_value) {
