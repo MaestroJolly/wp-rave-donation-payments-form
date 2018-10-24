@@ -15,7 +15,9 @@
     class FLW_Rave_Pay {
 
       private $plugin_name = 'rave-payment-forms';
-      private $api_base_url = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/';
+      private $api_base_url = 'https://ravesandboxapi.flutterwave.com/';
+      // private $api_base_url = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/';
+
 
       /**
        * Instance variable
