@@ -7,6 +7,7 @@
 
   <div class="wrap">
     <h1>Rave Payment Forms Settings</h1>
+    <h3 class="description">Note: You can use this shortcode [flw-pay-button] to display the payment button.</h3>
     <form id="rave-pay" action="options.php" method="post" enctype="multipart/form-data">
       <?php settings_fields( 'flw-rave-settings-group' ); ?>
       <?php do_settings_sections( 'flw-rave-settings-group' ); ?>
@@ -72,6 +73,26 @@
                 <option value="account" <?php selected( $method, 'account' ) ?>>Account Only</option>
               </select>
               <p class="description">(Optional) default: Card and Account</p>
+            </td>
+          </tr>
+          <!-- Sub accounts -->
+          <tr valign="top">
+            <th scope="row">
+              <label for="flw_rave_options[sub_accounts]"><?php _e( 'Sub Accounts', 'rave-pay' ); ?></label>
+            </th>
+            <td class="forminp forminp-text">
+              <input class="regular-text code" type="text" name="flw_rave_options[sub_accounts]" value="<?php echo esc_attr( $admin_settings->get_option_value( 'sub_accounts' ) ); ?>" placeholder="E.g: Sub Account One, Sub Account Two"/>
+              <p class="description">(Example of how to add multiple sub accounts:- Sub account name one, Sub account name two and so on...)</p>
+            </td>
+          </tr>
+          <!-- Sub account IDs -->
+          <tr valign="top">
+            <th scope="row">
+              <label for="flw_rave_options[sub_account_ids]"><?php _e( 'Sub Account IDs', 'rave-pay' ); ?></label>
+            </th>
+            <td class="forminp forminp-text">
+              <input class="regular-text code" type="text" name="flw_rave_options[sub_account_ids]" value="<?php echo esc_attr( $admin_settings->get_option_value( 'sub_account_ids' ) ); ?>", placeholder="E.g: RS_AGSYYE737383393939393933, RS_2B1B3B69851GSGSHJSJ2DJDD," />
+              <p class="description">(Example of how to add multiple sub account IDs:- RS_AE7B0B22U8E69C6BFEB5143CAA0GH38929, RS_4B26738B6985172B904A58DCA9E9023RR26, so on...)</p>
             </td>
           </tr>
           <!-- Modal Description -->

@@ -123,20 +123,22 @@
 
         global $admin_settings;
 
-        check_ajax_referer( 'flw-rave-pay-nonce', 'flw_sec_code' );
+        // check_ajax_referer( 'flw-rave-pay-nonce', 'flw_sec_code' );
 
         $tx_ref = $_POST['txRef'];
         $flw_ref = $_POST['flwRef'];
         $secret_key = $admin_settings->get_option_value( 'secret_key' );
 
-        $txn = json_decode( $this->_fetchTransaction( $flw_ref, $secret_key ) );
+        $txn = json_decode( $this->_fetchTransaction( $tx_ref, $secret_key ) );
 
-        if ( ! empty($txn->data) && $this->_is_successful( $txn->data ) ) {
+        // var_dump($txn);
+
+        if ( ! empty($txn->data) && $this->_is_successful( $txn->data->chargecode ) ) {
           $status =  $txn->data->status;
           $args   =  array(
             'post_type'   => 'payment_list',
             'post_status' => 'publish',
-            'post_title'  => $tx_ref,
+            'post_title'  => $txn->data->txref,
           );
 
           $payment_record_id = wp_insert_post( $args, true );
@@ -144,15 +146,15 @@
           if ( ! is_wp_error( $payment_record_id )) {
 
             $post_meta = array(
-              '_flw_rave_payment_amount'   => $txn->data->amount,
-              '_flw_rave_payment_fullname' => $_POST['customer']['fullName'],//$txn->data->customer->fullName,
-              '_flw_rave_payment_customer' => $_POST['customer']['email'],
+              '_flw_rave_payment_amount'   => $txn->data->currency .' '. $txn->data->amount,
+              '_flw_rave_payment_fullname' => $txn->data->custname,//$txn->data->customer->fullName,
+              '_flw_rave_payment_customer' => $txn->data->custemail,
+              '_flw_rave_payment_purpose' => $txn->data->meta[0]->metavalue,
               '_flw_rave_payment_status'   => $status,
-              '_flw_rave_payment_tx_ref'   => $tx_ref,
+              '_flw_rave_payment_tx_ref'   => $txn->data->txref,
             );
 
             $this->_add_post_meta( $payment_record_id, $post_meta );
-
           }
         }
         $redirect_url_key = $status === 'successful' ? 'success_redirect_url' : 'failed_redirect_url';
@@ -178,12 +180,12 @@
        *
        * @return string
        */
-      private function _fetchTransaction( $flw_ref, $sckey ) {
+      private function _fetchTransaction( $txref, $sckey ) {
 
-        $url = $this->api_base_url . 'flwv3-pug/getpaidx/api/verify';
+        $url = $this->api_base_url . 'flwv3-pug/getpaidx/api/v2/verify';
         $args = array(
           'body' => array(
-            'flw_ref' => $flw_ref,
+            'txref' => $txref,
             'SECKEY' => $sckey ),
           'sslverify' => false
         );
@@ -208,7 +210,7 @@
        */
       private function _is_successful( $data ) {
 
-        return $data->flwMeta->chargeResponse === '00' || $data->flwMeta->chargeResponse === '0';
+        return $data === '00' || $data === '0';
 
       }
 

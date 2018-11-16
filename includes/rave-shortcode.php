@@ -20,10 +20,16 @@
 
       function __construct() {
 
-        add_action( 'wp_enqueue_scripts', array( $this, 'load_css_files' ) );
+        add_action( 'wp_enqueue_scripts', 'wp_plugin_scripts' );
         add_shortcode( 'flw-pay-button', array( $this, 'pay_button_shortcode' ) );
 
       }
+
+      function wp_plugin_scripts(){
+        wp_register_style('my_styles', plugins_url('/assets/css/ravestyles.css',__FILE__ ));
+        wp_enqueue_style('my_styles');
+      }
+  
 
       /**
        * Get the instance of this class
@@ -55,7 +61,8 @@
 
         $btn_text = empty( $content ) ? $this->pay_button_text() : $content;
         $email = $this->use_current_user_email( $attr ) ? wp_get_current_user()->user_email : '';
-        if (!empty($this->get_logo_url($attr))) {
+        //!empty($this->get_logo_url($attr)
+        if (trim($this->get_logo_url($attr)) == false) {
           $attr['logo'] = $this->get_logo_url($attr);
         }
 
@@ -101,13 +108,17 @@
 
         $args = array(
           'cb_url'    => admin_url( 'admin-ajax.php' ),
+          'sub_account_url'  => $flw_pay_class->get_api_base_url().'v2/gpx/subaccounts/get/',
           'country'   => $admin_settings->get_option_value( 'country' ),
           'currency'  => $admin_settings->get_option_value( 'currency' ),
           'desc'      => $admin_settings->get_option_value( 'modal_desc' ),
           'logo'      => $admin_settings->get_option_value( 'modal_logo' ),
+          'sub_accounts'      => $admin_settings->get_option_value( 'sub_accounts' ),
+          'sub_account_ids'      => $admin_settings->get_option_value( 'sub_account_ids' ),
           'method'    => $admin_settings->get_option_value( 'method' ),
           'pbkey'     => $admin_settings->get_option_value( 'public_key' ),
           'title'     => $admin_settings->get_option_value( 'modal_title' ),
+          'redirectUrl'  => $admin_settings->get_option_value( 'success_redirect_url' ),
         );
 
         wp_enqueue_script( 'flwpbf_inline_js', $flw_pay_class->get_api_base_url() . 'flwv3-pug/getpaidx/api/flwpbf-inline.js', array(), '1.0.0', true );

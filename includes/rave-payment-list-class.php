@@ -72,7 +72,8 @@
 
       public function column_amount( $item ) {
         $amount = get_post_meta( $item->ID, '_flw_rave_payment_amount', true );
-        return number_format( $amount, 2 );
+        // return number_format( $amount, 2 );
+        return $amount;
       }
 
       /**
@@ -88,8 +89,9 @@
         switch ( $column_name ) {
           // case 'tx_ref':
           //   return $column_name;
-          case 'customer':
           case 'fullname':
+          case 'customer':
+          case 'purpose':
           case 'status':
             return get_post_meta( $item->ID, '_flw_rave_payment_' . $column_name, true );
           case 'date':
@@ -112,9 +114,10 @@
         $columns = array(
           'cb'      => '<input type="checkbox" />',
           'tx_ref'  => __( 'Transaction Ref', 'rave-pay' ),
-          'customer' => __( 'Customer', 'rave-pay' ),
           'fullname' => __('Customer Fullname', 'rave-pay'),
-          'amount'  => __( 'Amount (' . $admin_settings->get_option_value( 'currency' ) . ')', 'rave-pay' ),
+          'customer' => __( 'Customer Email', 'rave-pay' ),
+          'purpose' => __('Giving For', 'rave-pay'),
+          'amount'  => __( 'Amount', 'rave-pay' ),
           'status'  => __( 'Status', 'rave-pay' ),
           'date'    => __( 'Date', 'rave-pay' ),
         );
