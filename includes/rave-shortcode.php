@@ -20,13 +20,15 @@
 
       function __construct() {
 
-        add_action( 'wp_enqueue_scripts', 'wp_plugin_scripts' );
+        add_action( 'wp_enqueue_scripts', array( $this, 'wp_plugin_scripts' ));
         add_shortcode( 'flw-pay-button', array( $this, 'pay_button_shortcode' ) );
 
       }
 
       function wp_plugin_scripts(){
-        wp_register_style('my_styles', plugins_url('/assets/css/ravestyles.css',__FILE__ ));
+        wp_register_style('custombox_css', FLW_DIR_URL . 'assets/css/custombox.min.css');
+        wp_enqueue_style('custombox_css');
+        wp_register_style('my_styles', FLW_DIR_URL . 'assets/css/ravestyles.css');
         wp_enqueue_style('my_styles');
       }
   
@@ -122,8 +124,8 @@
         );
 
         wp_enqueue_script( 'flwpbf_inline_js', $flw_pay_class->get_api_base_url() . 'flwv3-pug/getpaidx/api/flwpbf-inline.js', array(), '1.0.0', true );
-        wp_enqueue_script( 'flw_js', FLW_DIR_URL . 'assets/js/flw.js', array( 'flwpbf_inline_js', 'jquery' ), '1.0.0', true );
-
+        wp_enqueue_script( 'custombox_js', FLW_DIR_URL . 'assets/js/custombox.min.js', null, null, true );
+        wp_enqueue_script( 'flw_js', FLW_DIR_URL . 'assets/js/flw.js', array( 'flwpbf_inline_js', 'custombox_js' ), '1.0.0', true );
         wp_localize_script( 'flw_js', 'flw_rave_options', $args );
 
       }

@@ -1,201 +1,182 @@
 'use strict';
 
-var button, form, modalForm, modalDetails, payForm, fname, amount, currencyOption, givings, country, email, donorAddress, more, phone, addy, transRef, donorFname, donorLname, donorEmail, donorNumber, donorAddress, verifyFname, verifyAmt, verifyCurr, verifyCount, verifyGiv, verifyEmail, verifyPhone, verifytransRef, verifyAddy, countryCode, adminSubAccountId, subAccountLists, subAccountIdLists, subAccountIds, subAccounts, subAccountArrays,
-subaccountErr, editForm, modalSuccess, paymentMessage, modalAjaxLoader;
+var button, form, modalForm, modalDetails, payForm, fname, newamount, currencyOption, givings, country, email, donorAddress, more, phone, addy, transRef, donorFname, donorLname, donorEmail, donorNumber, donorAddress, verifyFname, verifyAmt, verifyCurr, verifyCount, verifyGiv, verifyEmail, verifyPhone, verifytransRef, verifyAddy, countryCode, adminSubAccountId, subAccountLists, subAccountIdLists, subAccountIds, subAccounts, subAccountArrays,
+subaccountErr, editForm, modalSuccess, paymentMessage, modalAjaxLoader, goBack;
+
+
+// Instantiate new modal
+var modalOne = new Custombox.modal({
+  content: {
+    effect: 'fadein',
+    target: '#hidden-modal-one'
+  }
+});
+
+var modalTwo = new Custombox.modal({
+  content: {
+    effect: 'fadein',
+    target: '#hidden-modal-two'
+  }
+});
+
+var modalThree = new Custombox.modal({
+  content: {
+    effect: 'fadein',
+    target: '#hidden-modal-three'
+  }
+});
+
+var modalFour = new Custombox.modal({
+  content: {
+    effect: 'fadein',
+    target: '#hidden-modal-four'
+  }
+});
+
 
 
 // Get the modal
-var modal = document.getElementById('myModal');
+var modal = jQuery('#myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var spanOne = document.getElementsByClassName("close")[0];
-
-// Get the <span> element that closes the modal
-var spanTwo = document.getElementsByClassName("close")[1];
-
-// Get the <span> element that closes the modal
-var spanThree = document.getElementsByClassName("close")[2];
+var btn = jQuery('#myBtn');
 
 // When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-spanOne.addEventListener('click', function() {
-  console.log("clicked");
-  modal.style.display = "none";
-});
-
-spanTwo.addEventListener('click', function() {
-  modal.style.display = "none";
-});
-
-spanThree.addEventListener('click', function() {
-  modalSuccess.classList.add('hide');
-  modalDetails.classList.add('hide');
-  modalForm.classList.remove('hide');
-  modal.style.display = "none";
-  form.reset();
-
+jQuery(document).on('click', btn, function(event) {
+    if (event.target.id == "myBtn"){
+      // Open
+      modalOne.open();
+    }
 });
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-      modalSuccess.classList.add('hide');
-      modalDetails.classList.add('hide');
-      modalForm.classList.remove('hide');
-      modal.style.display = "none";
-      form.reset();
-    }
-}
 
-form = document.querySelector("#pay-form"), redirectUrl;
-modalDetails = document.querySelector(".modal-details");
-modalForm = document.querySelector(".modal-form");
-modalAjaxLoader = document.querySelector(".modal-loader");
-more = document.querySelector("#more");
-addy = document.querySelector("#hide");
-amount = document.querySelector("#amount");
-currencyOption = document.querySelector("#currency-option");
-country = document.querySelector("#country");
-givings = document.querySelector("#givings");
-donorFname = document.querySelector("#fname");
-donorLname = document.querySelector("#lname");
-donorEmail = document.querySelector("#email");
-donorNumber = document.querySelector("#phonenumber");
-donorAddress = document.querySelector("#addy");
-verifyFname = document.querySelector(".verify-fname");
-verifyAmt = document.querySelector(".verify-amt");
-verifyCurr = document.querySelector(".verify-curr");
-verifyCount = document.querySelector(".verify-count");
-verifyGiv = document.querySelector(".verify-giv");
-verifytransRef = document.querySelector(".verify-transRef");
-verifyEmail = document.querySelector(".verify-email");
-verifyPhone = document.querySelector(".verify-phone");
-verifyAddy = document.querySelector(".verify-addy");
-subaccountErr = document.querySelector("#subaccount-error");
-editForm = document.querySelector(".back");
+form = jQuery("#pay-form");
+redirectUrl;
+modalDetails = jQuery(".modal-details");
+modalForm = jQuery(".modal-form");
+modalAjaxLoader = jQuery(".modal-loader");
+more = jQuery("#more");
+addy = jQuery("#hide");
+newamount = jQuery("#newamount");
+currencyOption = jQuery("#currency-option");
+country = jQuery("#country");
+givings = jQuery("#givings");
+donorFname = jQuery("#fname");
+donorLname = jQuery("#lname");
+donorEmail = jQuery("#email");
+donorNumber = jQuery("#phonenumber");
+donorAddress = jQuery("#addy");
+verifyFname = jQuery(".verify-fname");
+verifyAmt = jQuery(".verify-amt");
+verifyCurr = jQuery(".verify-curr");
+verifyCount = jQuery(".verify-count");
+verifyGiv = jQuery(".verify-giv");
+verifytransRef = jQuery(".verify-transRef");
+verifyEmail = jQuery(".verify-email");
+verifyPhone = jQuery(".verify-phone");
+verifyAddy = jQuery(".verify-addy");
+subaccountErr = jQuery("#subaccount-error");
+goBack = document.querySelector("#back-btn");
 
 
-more.addEventListener('click', function(){
-    addy.classList.toggle("hide");
-})
+more.click(function(){
+    addy.toggleClass("hide");
+});
+
+goBack.addEventListener('click', function(e){
+  e.preventDefault();
+  console.log("back");
+  Custombox.modal.close();
+  modalOne.open();
+});
+
+    form.submit(function(e){
+      e.preventDefault();
+      if (currencyOption.val() === 'Choose a currency' || country.val() === 'Choose Country' || givings.val() === 'Choose a purpose') {
+        alert('All fields must be filled!');
+      } else {
+        subAccountLists = [];
+        subAccountIdLists = [];
+        subAccountIds =  flw_rave_options.sub_account_ids.split (",");
+        subAccounts =  flw_rave_options.sub_accounts.split (",");
+        subAccountIds.forEach(function(subAccountId){
+          return subAccountIdLists.push(subAccountId);
+        });
+
+        subAccounts.forEach(function(subAccount){
+          return subAccountLists.push(subAccount);
+        });
+
+        subAccountArrays = {};
+        for (var i = 0; i < subAccountIdLists.length; i++) {
+          var theSubAccountLists = subAccountLists[i];
+          subAccountArrays[theSubAccountLists] = subAccountIdLists[i];
+        }
 
 
-form.addEventListener('submit', function(event){
-    event.preventDefault();
-    
-    if(modalDetails.classList.contains('hide')) {
-      subAccountLists = [];
-      subAccountIdLists = [];
-      subAccountIds =  flw_rave_options.sub_account_ids.split (",");
-      subAccounts =  flw_rave_options.sub_accounts.split (",");
-      subAccountIds.forEach(subAccountId => {
-        subAccountIdLists.push(subAccountId);
-      });
-
-      subAccounts.forEach(subAccount => {
-        subAccountLists.push(subAccount);
-      });
-
-    subAccountArrays = {};
-    for (var i = 0; i < subAccountIdLists.length; i++) {
-      var theSubAccountLists = subAccountLists[i];
-      subAccountArrays[theSubAccountLists] = subAccountIdLists[i];
-    }
-
-
-    for (var subAccountArray in subAccountArrays) {
-      // check if the property/key is defined in the object itself, not in parent
-      if (subAccountArrays.hasOwnProperty(subAccountArray)) {           
-          if (givings.value == subAccountArray) {
-            adminSubAccountId = subAccountArrays[subAccountArray];
-          }else{
-            console.log(false);
+        for (var subAccountArray in subAccountArrays) {
+          // check if the property/key is defined in the object itself, not in parent
+          if (subAccountArrays.hasOwnProperty(subAccountArray)) {           
+              if (givings.val() == subAccountArray) {
+                adminSubAccountId = subAccountArrays[subAccountArray];
+              }
           }
+        }
+
+        
+      if (donorAddress === ""){
+        verifyAddy.text("");
+      }else {
+        verifyAddy.text(donorAddress.val());
       }
-    }
-    modalForm.classList.add('hide')
-    modalDetails.classList.remove('hide')
-  }else {
-    modalDetails.classList.add('hide')
-    modalForm.classList.remove('hide')
+      transRef = "GVHR-"+Date.now();
+      verifyFname.text(donorFname.val() +" "+donorLname.val());
+      verifyAmt.text(newamount.val());
+      verifyCurr.text(currencyOption.val());
+      verifyCount.text(country.val());
+      verifytransRef.text(transRef);
+      verifyGiv.text(givings.val());
+      verifyEmail.text(donorEmail.val());
+      verifyPhone.text(donorNumber.val());
+
+      switch (currencyOption.val()) {
+          case "KES":
+              countryCode = "KE";
+              break;
+          case "GHS":
+              countryCode = "GH";
+              break;
+          case "ZAR":
+              countryCode = "ZA";
+              break;
+          default:
+              countryCode= "NG";
+              break;
+      }
+      Custombox.modal.close();
+      modalTwo.open();
+    e.preventDefault();
   }
-
-    
-  if (donorAddress === ""){
-    verifyAddy.innerText = "";
-  }else {
-    verifyAddy.innerText = donorAddress.value;
-  }
-  transRef = "GVHR-"+Date.now();
-  verifyFname.innerText = donorFname.value +" "+donorLname.value
-  verifyAmt.innerText = amount.value
-  verifyCurr.innerText = currencyOption.value
-  verifyCount.innerText = country.value
-  verifytransRef.innerText = transRef
-  verifyGiv.innerText = givings.value
-  verifyEmail.innerText = donorEmail.value
-  verifyPhone.innerText = donorNumber.value
-
-  switch (currencyOption.value) {
-      case "KES":
-          countryCode = "KE";
-          break;
-      case "GHS":
-          countryCode = "GH";
-          break;
-      case "ZAR":
-          countryCode = "ZA";
-          break;
-      default:
-          countryCode= "NG";
-          break;
-  }
-})
+});
 
 
-// editForm.addEventListener("click", function(){
-//   if(modalForm.classList.contains('hide')) {
-//     verifyFname.innerText = "Fullname: "+donorName;
-//     verifyAmt.innerText="Amount: "+amount;
-//     verifyCurr.innerText="Currency: "+currencyOption;
-//     verifyCount.innerText="Country: "+country;
-//     transRef = "GVHR-"+Date.now();
-//     verifytransRef.innerText="Transaction Reference: "+transRef;
-//     verifyGiv.innerText="Giving For: "+givings;
-//     verifyEmail.innerText="Email: ";
-//     verifyPhone.innerText="Phone Number: ";
-//     verifyAddy.innerText="";
-//     modalForm.classList.remove('hide');
-//     modalDetails.classList.add('hide');
-//   }else{
-//     modalForm.classList.add('hide');
-//     modalDetails.classList.remove('hide');
-//   }
-// })
+var payNow = jQuery("#paynow");
 
-var payNow = document.getElementById("paynow");
-
-payNow.addEventListener('click', function(e) {
+payNow.click(function(e) {
   e.preventDefault();
   var paymentObject = {
-    amount: amount.value,
-    customer_firstname: donorFname.value,
-    customer_lastname: donorLname.value,
-    customer_email: donorEmail.value,
+    amount: newamount.val(),
+    customer_firstname: donorFname.val(),
+    customer_lastname: donorLname.val(),
+    customer_email: donorEmail.val(),
     country: countryCode,
-    currency: currencyOption.value,
-    customer_phone: donorNumber.value,
-    custom_description: givings.value,
+    currency: currencyOption.val(),
+    customer_phone: donorNumber.val(),
+    custom_description: givings.val(),
     custom_logo: flw_rave_options.logo,
     custom_title: flw_rave_options.title,
-    "meta": [{metaname: "Purpose Of Giving", metavalue: givings.value}, {metaname: "Country", metavalue: country.value}, {metaname: "Address", metavalue: donorAddress.value}],
+    "meta": [{metaname: "Purpose Of Giving", metavalue: givings.val()}, {metaname: "Country", metavalue: country.val()}, {metaname: "Address", metavalue: donorAddress.val()}],
     PBFPubKey: flw_rave_options.pbkey,
     redirect_url: flw_rave_options.redirectUrl,
     txref: transRef,
@@ -208,19 +189,14 @@ payNow.addEventListener('click', function(e) {
       x.close();
     }
   }
-
-  document.getElementById("myModal").style.display = "none";
+  Custombox.modal.close();
   var x = getpaidSetup(paymentObject);
-
 })
 
 
 
 var handleResponse =  function(res, form) {
-  modalDetails.classList.add('hide');
-  modalAjaxLoader.classList.remove('hide');
-  modal.style.display = "block";
-  // console.log(res);
+  modalThree.open();
     var args  = {
       action: 'process_payment',
       flw_sec_code: jQuery( form ).find( '#flw_sec_code' ).val(),
@@ -233,40 +209,25 @@ var handleResponse =  function(res, form) {
       .success( function(data) {
         // console.log(data);
     if(redirectUrl == '' || redirectUrl == undefined) {
-      paymentMessage = document.querySelector("#notice");
-      modalSuccess = document.querySelector(".modal-success");
-      modalSuccess.classList.add('hide');
-      modalDetails.classList.add('hide');
-      modalForm.classList.remove('hide');
+      paymentMessage = jQuery("#notice");
+      modalSuccess = jQuery(".modal-success");
+      Custombox.modal.close();
 
-      amount.value;
-      currencyOption.value;
-      givings.value;
-      country.value;
-      donorFname.value;
-      donorLname.value;
-      donorEmail.value;
-      donorNumber.value;
-      donorAddress.value;
+      newamount.val();
+      currencyOption.val();
+      givings.val();
+      country.val();
+      donorFname.val();
+      donorLname.val();
+      donorEmail.val();
+      donorNumber.val();
+      donorAddress.val();
 
-      form.reset();
+      form[0].reset();
       var displayModal = function(){
-        if(modalSuccess.classList.contains('hide')) {
-          modalForm.classList.add('hide');
-          modal.style.display = "block";
-          modalSuccess.classList.remove('hide');
-          modalDetails.classList.add('hide');
-        }else {
-          modalSuccess.classList.add('hide');
-          modalDetails.classList.add('hide');
-          modalForm.classList.add('hide');
-          modal.style.display = "none";
-        }
-        paymentMessage.innerText = 'Thank you for your donation of '+res.tx["currency"] + " " + res.tx["amount"] + ". Your payment was "+res.tx["status"];
-        // console.log(res);
+        paymentMessage.text('Thank you for your donation of '+res.tx["currency"] + " " + res.tx["amount"] + ". Your payment was "+res.tx["status"]);
+        modalFour.open();
       }
-      modalAjaxLoader.classList.add('hide');
-      modal.style.display = "none";
       displayModal();
     } else {
       setTimeout(redirectTo, 5000, res.tx["redirect_url"]);
